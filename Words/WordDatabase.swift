@@ -433,7 +433,7 @@ struct WordDatabase {
             TabooCard(word: "Sunucu", forbiddenWords: ["Bilgisayar", "Veri", "Barındır", "Büyük", "Depolama"], category: "Teknoloji"),
             TabooCard(word: "Veri Tabanı", forbiddenWords: ["Veri", "Depolama", "Sorgu", "Tablo", "Kayıt"], category: "Teknoloji"),
             TabooCard(word: "Programlama", forbiddenWords: ["Kod", "Dil", "Bilgisayar", "Geliştirici", "Yazmak"], category: "Teknoloji"),
-            TabooCard(word: "Hata (Bug)", forbiddenWords: ["Hata", "Kod", "Düzeltme", "Program", "Yazılım"], category: "Teknoloji"),
+            TabooCard(word: "Bug", forbiddenWords: ["Hata", "Kod", "Düzeltme", "Program", "Yazılım"], category: "Teknoloji"),
             TabooCard(word: "Uygulama", forbiddenWords: ["Yazılım", "Telefon", "İndirme", "Mobil", "Program"], category: "Teknoloji"),
             TabooCard(word: "Sosyal Medya", forbiddenWords: ["Paylaşım", "Takip", "Beğeni", "Profil", "Gönderi"], category: "Teknoloji"),
             TabooCard(word: "Podcast", forbiddenWords: ["Ses", "Dinlemek", "Bölüm", "Abone", "Konuşma"], category: "Teknoloji"),

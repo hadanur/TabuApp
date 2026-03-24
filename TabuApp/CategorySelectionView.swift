@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct CategorySelectionView: View {
+    @Environment(\.dismiss) private var dismiss
     @Binding var navigationPath: NavigationPath
     @State private var selectedCategory: TabooCategory? = nil
     @State private var showGameSetup = false
-    @State private var showHomeAlert = false
 
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
@@ -114,26 +114,19 @@ struct CategorySelectionView: View {
                 }
             }
 
-            if showHomeAlert {
-                TabuAlertView(
-                    title: "Ana Menüye Dön?",
-                    message: "Ana menüye dönmek istediğine emin misin?",
-                    confirmText: "Evet, Dön",
-                    cancelText: "Burada Kal",
-                    onConfirm: { navigationPath = NavigationPath() },
-                    onCancel: { withAnimation { showHomeAlert = false } }
-                )
-            }
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    withAnimation { showHomeAlert = true }
+                    dismiss()
                 } label: {
-                    Image(systemName: "house.fill")
-                        .font(.body.bold())
-                        .foregroundColor(.white.opacity(0.7))
+                    Image(systemName: "chevron.left")
+                        .font(.body.weight(.bold))
+                        .foregroundColor(.white)
+                        .frame(width: 36, height: 36)
+                        .background(Color.white.opacity(0.15))
+                        .clipShape(Circle())
                 }
             }
         }

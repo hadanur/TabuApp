@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct TeamSetupView: View {
+    @Environment(\.dismiss) private var dismiss
     let category: TabooCategory
     @Binding var navigationPath: NavigationPath
     @State private var team1Name = "Takım 1"
@@ -14,7 +15,6 @@ struct TeamSetupView: View {
     @State private var roundTime = 60
     @State private var maxRounds = 5
     @State private var showGame = false
-    @State private var showHomeAlert = false
 
     var body: some View {
         ZStack {
@@ -98,26 +98,19 @@ struct TeamSetupView: View {
                 .padding(.horizontal)
             }
 
-            if showHomeAlert {
-                TabuAlertView(
-                    title: "Ana Menüye Dön?",
-                    message: "Ayarların silinecek. Emin misin?",
-                    confirmText: "Evet, Dön",
-                    cancelText: "Burada Kal",
-                    onConfirm: { navigationPath = NavigationPath() },
-                    onCancel: { withAnimation { showHomeAlert = false } }
-                )
-            }
         }
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    withAnimation { showHomeAlert = true }
+                    dismiss()
                 } label: {
-                    Image(systemName: "house.fill")
-                        .font(.body.bold())
-                        .foregroundColor(.white.opacity(0.7))
+                    Image(systemName: "chevron.left")
+                        .font(.body.weight(.bold))
+                        .foregroundColor(.white)
+                        .frame(width: 36, height: 36)
+                        .background(Color.white.opacity(0.15))
+                        .clipShape(Circle())
                 }
             }
         }

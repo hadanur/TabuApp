@@ -22,6 +22,8 @@ struct TeamGameView: View {
     @State private var timeRemaining = 0
     @State private var timer: Timer? = nil
     @State private var phase: GamePhase = .readyToStart
+    @State private var countdownNumber = 3
+    @State private var countdownScale: CGFloat = 0.5
     @State private var roundNumber = 1
     @State private var isGameOver = false
     @State private var correctThisRound = 0
@@ -32,7 +34,7 @@ struct TeamGameView: View {
     @State private var isAnimating = false
     @State private var showHomeAlert = false
 
-    enum GamePhase { case readyToStart, playing, roundOver }
+    enum GamePhase { case readyToStart, countdown, playing, roundOver }
 
     var currentTeamName: String { currentTeam == 1 ? team1Name : team2Name }
     var teamGradient: [Color] {
@@ -58,11 +60,19 @@ struct TeamGameView: View {
                 .offset(x: currentTeam == 1 ? -100 : 100, y: -100)
                 .animation(.easeInOut(duration: 0.8), value: currentTeam)
 
-            switch phase {
-            case .readyToStart: readyView
-            case .playing: playingView
-            case .roundOver: roundOverView
+            Group {
+                switch phase {
+                case .readyToStart:
+                    readyView.transition(.opacity.combined(with: .scale(scale: 0.95)))
+                case .countdown:
+                    countdownView.transition(.opacity)
+                case .playing:
+                    playingView.transition(.asymmetric(insertion: .move(edge: .bottom).combined(with: .opacity), removal: .opacity))
+                case .roundOver:
+                    roundOverView.transition(.asymmetric(insertion: .scale(scale: 0.8).combined(with: .opacity), removal: .move(edge: .bottom)))
+                }
             }
+            .animation(.spring(response: 0.5, dampingFraction: 0.8), value: phase)
 
             if showHomeAlert {
                 TabuAlertView(
@@ -151,22 +161,105 @@ struct TeamGameView: View {
         }
     }
 
+    // MARK: - Countdown View
+    var countdownView: some View {
+        ZStack {
+            Text(countdownNumber > 0 ? "\(countdownNumber)" : "BAŞLA!")
+                .font(.system(size: countdownNumber > 0 ? 150 : 80, weight: .black, design: .rounded))
+                .foregroundColor(countdownNumber > 0 ? .white : Color(hex: "43e97b"))
+                .scaleEffect(countdownScale)
+                .opacity(countdownScale > 1.2 ? 0 : 1)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear {
+            runCountdown()
+        }
+    }
+
+    func runCountdown() {
+        countdownNumber = 3
+        animateNumber()
+    }
+    
+    func animateNumber() {
+        guard phase == .countdown else { return }
+        
+        countdownScale = 0.3
+        withAnimation(.spring(response: 0.4, dampingFraction: 0.5)) {
+            countdownScale = 1.0
+        }
+        
+        if countdownNumber > 0 {
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        } else {
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            guard phase == .countdown else { return }
+            withAnimation(.easeIn(duration: 0.2)) {
+                countdownScale = 1.5
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            guard phase == .countdown else { return }
+            if countdownNumber > 0 {
+                countdownNumber -= 1
+                animateNumber()
+            } else {
+                withAnimation(.easeOut(duration: 0.2)) {
+                    phase = .playing
+                    startTimer()
+                }
+            }
+        }
+    }
+
     // MARK: - Playing View
     var playingView: some View {
         VStack(spacing: 16) {
-            // Top bar
+            // Modern Centered Timer
             HStack {
-                HStack(spacing: 6) {
-                    Image(systemName: "timer")
-                    Text("\(timeRemaining)s")
+                Spacer()
+                
+                HStack(spacing: 8) {
+                    Image(systemName: timeRemaining <= 10 ? "alarm.fill" : "timer")
+                        .font(.system(size: 22, weight: .bold))
+                    
+                    Text("\(timeRemaining)")
+                        .font(.system(size: 28, weight: .black, design: .rounded))
+                        .monospacedDigit()
+                    
+                    Text("sn")
+                        .font(.headline.bold())
+                        .foregroundColor(.white.opacity(0.8))
                 }
-                .font(.title2.bold())
-                .foregroundColor(timeRemaining <= 10 ? Color(hex: "f5576c") : .white)
-
+                .foregroundColor(.white)
+                .padding(.horizontal, 28)
+                .padding(.vertical, 14)
+                .background(
+                    Capsule()
+                        .fill(
+                            timeRemaining <= 10
+                            ? LinearGradient(colors: [Color(hex: "ff0844"), Color(hex: "ffb199")], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            : LinearGradient(colors: [Color.white.opacity(0.15), Color.white.opacity(0.05)], startPoint: .top, endPoint: .bottom)
+                        )
+                )
+                .overlay(
+                    Capsule()
+                        .stroke(
+                            timeRemaining <= 10 ? Color(hex: "ffb199").opacity(0.6) : Color.white.opacity(0.3),
+                            lineWidth: 1
+                        )
+                )
+                .shadow(color: timeRemaining <= 10 ? Color(hex: "ff0844").opacity(0.6) : Color.black.opacity(0.2), radius: timeRemaining <= 10 ? 15 : 10, x: 0, y: 5)
+                .scaleEffect(timeRemaining <= 10 ? 1.05 : 1.0)
+                .animation(.spring(response: 0.4, dampingFraction: 0.5), value: timeRemaining <= 10)
+                
                 Spacer()
             }
-            .padding(.horizontal)
-            .padding(.top)
+            .padding(.top, 10)
 
             // Mini scoreboard
             HStack(spacing: 0) {
@@ -181,35 +274,79 @@ struct TeamGameView: View {
             Spacer()
 
             if let card = currentCard {
-                VStack(spacing: 20) {
-                    Text(card.word)
-                        .font(.system(size: 34, weight: .black, design: .rounded))
-                        .foregroundStyle(
-                            LinearGradient(colors: teamGradient,
-                                           startPoint: .leading, endPoint: .trailing)
-                        )
-
-                    Divider().background(Color.black.opacity(0.1))
-
-                    VStack(spacing: 10) {
+                VStack(spacing: 0) {
+                    // Header section
+                    VStack(spacing: 8) {
+                        Text("TABU KELİMESİ")
+                            .font(.caption.bold())
+                            .foregroundColor(.white.opacity(0.85))
+                            .tracking(2)
+                        
+                        Text(card.word)
+                            .font(.system(size: 38, weight: .black, design: .rounded))
+                            .foregroundColor(.white)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .padding(.horizontal)
+                    .background(
+                        LinearGradient(colors: teamGradient,
+                                       startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
+                    
+                    // Forbidden words section
+                    VStack(spacing: 12) {
+                        Text("YASAKLI KELİMELER")
+                            .font(.caption.bold())
+                            .foregroundColor(.gray.opacity(0.8))
+                            .tracking(2)
+                            .padding(.top, 20)
+                            .padding(.bottom, 4)
+                        
                         ForEach(card.forbiddenWords, id: \.self) { word in
-                            HStack {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.red)
+                            HStack(spacing: 16) {
+                                Image(systemName: "xmark")
+                                    .font(.system(size: 12, weight: .black))
+                                    .foregroundColor(.white)
+                                    .frame(width: 26, height: 26)
+                                    .background(
+                                        LinearGradient(colors: [Color(hex: "ff416c"), Color(hex: "ff4b2b")],
+                                                       startPoint: .topLeading, endPoint: .bottomTrailing)
+                                    )
+                                    .clipShape(Circle())
+                                    .shadow(color: Color(hex: "ff4b2b").opacity(0.4), radius: 4, x: 0, y: 2)
+                                
                                 Text(word)
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .font(.system(size: 19, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color.black.opacity(0.8))
+                                
                                 Spacer()
                             }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color.gray.opacity(0.06))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+                            )
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 32)
                 }
-                .padding(24)
-                .background(.white)
-                .clipShape(RoundedRectangle(cornerRadius: 24))
-                .shadow(color: teamGradient[0].opacity(0.3), radius: 16, x: 0, y: 8)
-                .padding(.horizontal)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+                .drawingGroup() // Hardware acceleration flatten to kill shadow lag
+                .shadow(color: teamGradient[0].opacity(0.4), radius: 25, x: 0, y: 15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                )
+                .padding(.horizontal, 24)
                 .offset(x: cardOffset)
                 .opacity(cardOpacity)
             }
@@ -284,20 +421,15 @@ struct TeamGameView: View {
                 .foregroundColor(.white)
 
             // Round stats
-            HStack(spacing: 0) {
+            HStack(spacing: 8) {
                 StatCell(icon: "checkmark.circle.fill", label: "Doğru",
                          value: correctThisRound, color: .green)
                 StatCell(icon: "forward.circle.fill", label: "Pas",
                          value: skipCount, color: .orange)
                 StatCell(icon: "xmark.circle.fill", label: "Tabu",
                          value: tabuThisRound, color: .red)
+
             }
-            .background(Color.white.opacity(0.07))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .overlay(
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.white.opacity(0.1), lineWidth: 1)
-            )
             .padding(.horizontal)
 
             scoreBoard.padding(.horizontal)
@@ -389,12 +521,12 @@ struct TeamGameView: View {
 
         let direction: CGFloat = action == .correct ? -1 : 1
 
-        withAnimation(.easeIn(duration: 0.08)) {
+        withAnimation(.easeIn(duration: 0.15)) {
             cardOffset = direction * 300
             cardOpacity = 0
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
             let card = deck.removeFirst()
 
             switch action {
@@ -412,18 +544,18 @@ struct TeamGameView: View {
 
             if deck.isEmpty {
                 timer?.invalidate()
-                phase = .roundOver
+                withAnimation { phase = .roundOver }
                 isAnimating = false
                 return
             }
 
             cardOffset = -direction * 300
-            withAnimation(.easeOut(duration: 0.08)) {
+            withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                 cardOffset = 0
                 cardOpacity = 1
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.08) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
                 isAnimating = false
             }
         }
@@ -435,23 +567,25 @@ struct TeamGameView: View {
         correctThisRound = 0
         tabuThisRound = 0
         skipCount = 0
-        phase = .playing
-        startTimer()
+        withAnimation { phase = .countdown }
     }
 
     func startTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             if timeRemaining > 0 { timeRemaining -= 1 }
-            else { timer?.invalidate(); phase = .roundOver }
+            else { 
+                timer?.invalidate()
+                withAnimation { phase = .roundOver }
+            }
         }
     }
 
     func nextTeamTurn() {
         currentTeam = currentTeam == 1 ? 2 : 1
         roundNumber += 1
-        phase = .readyToStart
         timer?.invalidate()
+        withAnimation { phase = .readyToStart }
     }
 }
 
