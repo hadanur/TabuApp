@@ -454,3 +454,54 @@ struct TeamGameView: View {
         timer?.invalidate()
     }
 }
+
+struct DarkSetupSection<Content: View>: View {
+    let title: String
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            Text(title)
+                .font(.headline)
+                .foregroundColor(.white.opacity(0.8))
+            content
+        }
+        .padding(20)
+        .background(Color.white.opacity(0.07))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+        )
+    }
+}
+
+struct DarkSelectButton: View {
+    let label: String
+    let isSelected: Bool
+    let gradient: [Color]
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(label)
+                .font(.headline.bold())
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(
+                    Group {
+                        if isSelected {
+                            LinearGradient(colors: gradient,
+                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                        } else {
+                            LinearGradient(colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)],
+                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                        }
+                    }
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .shadow(color: isSelected ? gradient[0].opacity(0.4) : .clear, radius: 6, x: 0, y: 3)
+        }
+    }
+}

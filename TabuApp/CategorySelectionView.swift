@@ -15,6 +15,15 @@ struct CategorySelectionView: View {
 
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
 
+    var orderedCategories: [TabooCategory] {
+        var cats = WordDatabase.categories
+        if let index = cats.firstIndex(where: { $0.name == "Karışık" }) {
+            let mixedCategory = cats.remove(at: index)
+            cats.insert(mixedCategory, at: 0)
+        }
+        return cats
+    }
+
     var body: some View {
         ZStack {
             ZStack(alignment: .bottom) {
@@ -38,7 +47,7 @@ struct CategorySelectionView: View {
 
                     ScrollView(showsIndicators: false) {
                         LazyVGrid(columns: columns, spacing: 14) {
-                            ForEach(WordDatabase.categories) { category in
+                            ForEach(orderedCategories) { category in
                                 CategoryCard(category: category,
                                              isSelected: selectedCategory?.id == category.id)
                                     .onTapGesture {
@@ -156,6 +165,10 @@ struct CategoryCard: View {
     ]
 
     var gradientColors: [Color] {
+        if category.name == "Karışık" {
+            // A unique, vibrant golden/orange gradient for the mixed category
+            return [Color(hex: "FFB75E"), Color(hex: "ED8F03")]
+        }
         let index = abs(category.name.hashValue) % cardColors.count
         return cardColors[index]
     }
@@ -173,8 +186,9 @@ struct CategoryCard: View {
                 .lineLimit(2)
 
             Text("\(category.cards.count) kart")
-                .font(.caption2)
-                .foregroundColor(.white.opacity(0.7))
+                .font(.system(size: 12, weight: .medium, design: .rounded))
+                .foregroundColor(.white.opacity(0.95))
+                .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)
         }
         .frame(maxWidth: .infinity)
         .frame(height: 120)
