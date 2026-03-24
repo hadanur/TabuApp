@@ -191,8 +191,10 @@ struct TeamGameView: View {
         
         if countdownNumber > 0 {
             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+            SoundManager.shared.playCountdownTick()
         } else {
             UINotificationFeedbackGenerator().notificationOccurred(.success)
+            SoundManager.shared.playStart()
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -533,13 +535,16 @@ struct TeamGameView: View {
             case .correct:
                 if currentTeam == 1 { team1Score += 1 } else { team2Score += 1 }
                 correctThisRound += 1
+                SoundManager.shared.playCorrect()
             case .tabu:
                 if currentTeam == 1 { team1Score = max(0, team1Score - 1) }
                 else { team2Score = max(0, team2Score - 1) }
                 tabuThisRound += 1
+                SoundManager.shared.playTabu()
             case .skip:
                 skipCount += 1
                 deck.append(card)
+                SoundManager.shared.playSkip()
             }
 
             if deck.isEmpty {
@@ -573,9 +578,15 @@ struct TeamGameView: View {
     func startTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-            if timeRemaining > 0 { timeRemaining -= 1 }
+            if timeRemaining > 0 { 
+                timeRemaining -= 1 
+                if timeRemaining <= 10 && timeRemaining > 0 {
+                    SoundManager.shared.playTimeWarningWarning()
+                }
+            }
             else { 
                 timer?.invalidate()
+                SoundManager.shared.playTimeUp()
                 withAnimation { phase = .roundOver }
             }
         }
