@@ -6,8 +6,23 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B78D8AD52F5DE3E300C22711 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AD42F5DE3DF00C22711 /* Models.swift */; };
+		B78D8AE12F5DE6AD00C22711 /* WordDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AD72F5DE45A00C22711 /* WordDatabase.swift */; };
+		B78D8AE42F5DEA2B00C22711 /* TeamSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AE22F5DEA2700C22711 /* TeamSetupView.swift */; };
+		B78D8AE72F5DEA3D00C22711 /* TeamGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AE52F5DEA3900C22711 /* TeamGameView.swift */; };
+		B78D8AEA2F5DEA5600C22711 /* TeamGameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AE82F5DEA5200C22711 /* TeamGameOverView.swift */; };
+		B78D8AF12F5DEDF600C22711 /* SoloSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AF02F5DECB500C22711 /* SoloSetupView.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B78D8AC52F5DE3C000C22711 /* TabuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TabuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B78D8AD42F5DE3DF00C22711 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		B78D8AD72F5DE45A00C22711 /* WordDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordDatabase.swift; sourceTree = "<group>"; };
+		B78D8AE22F5DEA2700C22711 /* TeamSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamSetupView.swift; sourceTree = "<group>"; };
+		B78D8AE52F5DEA3900C22711 /* TeamGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamGameView.swift; sourceTree = "<group>"; };
+		B78D8AE82F5DEA5200C22711 /* TeamGameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeamGameOverView.swift; sourceTree = "<group>"; };
+		B78D8AF02F5DECB500C22711 /* SoloSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoloSetupView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -32,8 +47,12 @@
 		B78D8ABC2F5DE3C000C22711 = {
 			isa = PBXGroup;
 			children = (
-				B78D8AC72F5DE3C000C22711 /* TabuApp */,
+				B78D8AEF2F5DECA500C22711 /* One Vs One Play */,
+				B78D8AEE2F5DEC8E00C22711 /* Team Play */,
+				B78D8AD62F5DE45400C22711 /* Words */,
+				B78D8AD32F5DE3D300C22711 /* Models */,
 				B78D8AC62F5DE3C000C22711 /* Products */,
+				B78D8AC72F5DE3C000C22711 /* TabuApp */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +62,40 @@
 				B78D8AC52F5DE3C000C22711 /* TabuApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B78D8AD32F5DE3D300C22711 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B78D8AD42F5DE3DF00C22711 /* Models.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B78D8AD62F5DE45400C22711 /* Words */ = {
+			isa = PBXGroup;
+			children = (
+				B78D8AD72F5DE45A00C22711 /* WordDatabase.swift */,
+			);
+			path = Words;
+			sourceTree = "<group>";
+		};
+		B78D8AEE2F5DEC8E00C22711 /* Team Play */ = {
+			isa = PBXGroup;
+			children = (
+				B78D8AE82F5DEA5200C22711 /* TeamGameOverView.swift */,
+				B78D8AE22F5DEA2700C22711 /* TeamSetupView.swift */,
+				B78D8AE52F5DEA3900C22711 /* TeamGameView.swift */,
+			);
+			path = "Team Play";
+			sourceTree = "<group>";
+		};
+		B78D8AEF2F5DECA500C22711 /* One Vs One Play */ = {
+			isa = PBXGroup;
+			children = (
+				B78D8AF02F5DECB500C22711 /* SoloSetupView.swift */,
+			);
+			path = "One Vs One Play";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -119,6 +172,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B78D8AE12F5DE6AD00C22711 /* WordDatabase.swift in Sources */,
+				B78D8AE72F5DEA3D00C22711 /* TeamGameView.swift in Sources */,
+				B78D8AE42F5DEA2B00C22711 /* TeamSetupView.swift in Sources */,
+				B78D8AD52F5DE3E300C22711 /* Models.swift in Sources */,
+				B78D8AF12F5DEDF600C22711 /* SoloSetupView.swift in Sources */,
+				B78D8AEA2F5DEA5600C22711 /* TeamGameOverView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,6 +320,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -293,6 +353,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
