@@ -51,15 +51,22 @@ struct TeamGameOverView: View {
 
                     if let winner = winner {
                         Text(String(format: "%@ Kazandı!".localized(), winner))
-                            .font(.system(size: 34, weight: .black, design: .rounded))
+                            .font(.system(size: 36, weight: .black, design: .rounded))
                             .foregroundStyle(
                                 LinearGradient(colors: winnerGradient,
-                                               startPoint: .leading, endPoint: .trailing)
+                                               startPoint: .top, endPoint: .bottom)
                             )
+                            .shadow(color: winnerGradient[0].opacity(0.5), radius: 8, x: 0, y: 4)
+                            .multilineTextAlignment(.center)
                     } else {
                         Text("Berabere!".localized())
-                            .font(.system(size: 34, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
+                            .font(.system(size: 36, weight: .black, design: .rounded))
+                            .foregroundStyle(
+                                LinearGradient(colors: [.white, .gray],
+                                               startPoint: .top, endPoint: .bottom)
+                            )
+                            .shadow(color: .white.opacity(0.3), radius: 8, x: 0, y: 4)
+                            .multilineTextAlignment(.center)
                     }
                 }
                 .opacity(animate ? 1 : 0)

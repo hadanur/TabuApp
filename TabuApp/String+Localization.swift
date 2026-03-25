@@ -35,9 +35,9 @@ struct AppTranslations {
         
         // Game UI & States
         "Tur": ["tr": "Tur", "en": "Round"],
-        "Sıra %@ Takımında!": ["tr": "Sıra %@ Takımında!", "en": "%@ Team's Turn!"],
-        "Telefonu %@ takımına ver": ["tr": "Telefonu %@ takımına ver", "en": "Give the phone to the %@ team"],
-        "Hazırız!": ["tr": "Hazırız!", "en": "We're Ready!"],
+        "Sıra %@ Takımında!": ["tr": "Sahne %@ Takımının! 🎭", "en": "It's %@ Team's Stage! 🎭"],
+        "Telefonu %@ takımına ver": ["tr": "Telefonu %@ takımına devret ve şovu izle!", "en": "Hand the phone to %@ and watch the show!"],
+        "Hazırız!": ["tr": "Şovu Başlat! 🎬", "en": "Start the Show! 🎬"],
         "BAŞLA!": ["tr": "BAŞLA!", "en": "START!"],
         "sn": ["tr": "sn", "en": "s"],
         "TABU KELİMESİ": ["tr": "TABU KELİMESİ", "en": "TABOO WORD"],
@@ -48,10 +48,6 @@ struct AppTranslations {
         "Tabu!": ["tr": "Tabu!", "en": "Taboo!"],
         "Pas": ["tr": "Pas", "en": "Pass"],
         "Tabu": ["tr": "Tabu", "en": "Taboo"],
-        "Tur Bitti!": ["tr": "Tur Bitti!", "en": "Round Over!"],
-        "Sıradaki Takım →": ["tr": "Sıradaki Takım →", "en": "Next Team →"],
-        "Sonuçları Gör 🏆": ["tr": "Sonuçları Gör 🏆", "en": "See Results 🏆"],
-        
         // Alerts
         "Oyundan Çık?": ["tr": "Oyundan Çık?", "en": "Quit Game?"],
         "Mevcut oyun ilerlemen silinecek. Emin misin?": ["tr": "Mevcut oyun ilerlemen silinecek. Emin misin?", "en": "Current game progress will be lost. Are you sure?"],
@@ -59,9 +55,12 @@ struct AppTranslations {
         "Oyuna Devam Et": ["tr": "Oyuna Devam Et", "en": "Continue Game"],
         
         // Post Game / Stats
-        "%@ Kazandı!": ["tr": "%@ Kazandı!", "en": "%@ Won!"],
-        "Berabere!": ["tr": "Berabere!", "en": "It's a Tie!"],
+        "%@ Kazandı!": ["tr": "%@ Kazandı!", "en": "%@ is Legendary!"],
+        "Berabere!": ["tr": "İnanılmaz Bir Beraberlik! 😱", "en": "An Incredible Tie! 😱"],
         "Tekrar Oyna": ["tr": "Tekrar Oyna", "en": "Play Again"],
-        "Oyun Duraklatıldı": ["tr": "Oyun Duraklatıldı", "en": "Game Paused"]
+        "Oyun Duraklatıldı": ["tr": "Oyun Duraklatıldı", "en": "Game Paused"],
+        "Tur Bitti!": ["tr": "Zaman Doldu! ⏳", "en": "Time's Up! ⏳"],
+        "Sıradaki Takım →": ["tr": "Sıra Rakipte →", "en": "Rival's Turn →"],
+        "Sonuçları Gör 🏆": ["tr": "Görkemli Sonuçlar 🏆", "en": "Glorious Results 🏆"]
     ]
 }

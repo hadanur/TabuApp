@@ -139,17 +139,28 @@ struct TeamGameView: View {
 
             VStack(spacing: 16) {
                 Text("\("Tur".localized()) \(roundNumber) / \(maxRounds * 2)")
-                    .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.5))
+                    .font(.subheadline.bold())
+                    .foregroundColor(.white.opacity(0.9))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 6)
+                    .background(Color.white.opacity(0.1))
+                    .clipShape(Capsule())
 
                 Text(String(format: "Sıra %@ Takımında!".localized(), currentTeamName))
-                    .font(.system(size: 32, weight: .black, design: .rounded))
-                    .foregroundColor(.white)
+                    .font(.system(size: 36, weight: .black, design: .rounded))
+                    .foregroundStyle(
+                        LinearGradient(colors: teamGradient,
+                                       startPoint: .top, endPoint: .bottom)
+                    )
+                    .shadow(color: teamGradient[0].opacity(0.5), radius: 8, x: 0, y: 4)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal)
 
                 Text(String(format: "Telefonu %@ takımına ver".localized(), currentTeamName))
-                    .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.5))
+                    .font(.system(size: 16, weight: .semibold, design: .rounded))
+                    .foregroundColor(.white.opacity(0.7))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
             }
 
             Spacer()
@@ -439,7 +450,11 @@ struct TeamGameView: View {
 
             Text("Tur Bitti!".localized())
                 .font(.system(size: 32, weight: .black, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundStyle(
+                    LinearGradient(colors: [.white, Color(hex: "fde68a")],
+                                   startPoint: .top, endPoint: .bottom)
+                )
+                .shadow(color: Color(hex: "f59e0b").opacity(0.3), radius: 6, x: 0, y: 3)
 
             HStack(spacing: 8) {
                 StatCell(icon: "checkmark.circle.fill", label: "Doğru".localized(),
