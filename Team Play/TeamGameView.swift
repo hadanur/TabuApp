@@ -279,14 +279,13 @@ struct TeamGameView: View {
             .padding(.top, 10)
 
             // Mini scoreboard
-            HStack(spacing: 0) {
-                ScorePill(icon: "checkmark", count: correctThisRound, color: .green)
+            HStack(spacing: 12) {
                 ScorePill(icon: "forward.fill", count: skipCount, color: .orange)
-                ScorePill(icon: "xmark", count: tabuThisRound, color: .red)
+                ScorePill(icon: "checkmark", count: correctThisRound, color: .green)
+                ScorePill(icon: "exclamationmark.triangle.fill", count: tabuThisRound, color: .red)
             }
-            .background(Color.white.opacity(0.07))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal)
+            .padding(.top, 16)
 
             Spacer()
 
