@@ -14,7 +14,7 @@ extension String {
 
 struct AppTranslations {
     static let translations: [String: [String: String]] = [
-        "TABU": ["tr": "TABU", "en": "TABOO"],
+        "TABU": ["tr": "TABUU!", "en": "TABOO!"],
         "Yasak kelimeler oyunu": ["tr": "Yasak kelimeler oyunu", "en": "Forbidden words game"],
         "Hemen Oyna": ["tr": "Hemen Oyna", "en": "Play Now"],
         "Kategori Seç": ["tr": "Kategori Seç", "en": "Select Category"],
