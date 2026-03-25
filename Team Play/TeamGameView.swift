@@ -33,6 +33,7 @@ struct TeamGameView: View {
     @State private var cardOpacity: Double = 1
     @State private var isAnimating = false
     @State private var showHomeAlert = false
+    @State private var isPaused = false
 
     enum GamePhase { case readyToStart, countdown, playing, roundOver }
 
@@ -97,6 +98,20 @@ struct TeamGameView: View {
                     Image(systemName: "house.fill")
                         .font(.body.bold())
                         .foregroundColor(.white.opacity(0.7))
+                }
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                if phase == .playing {
+                    Button {
+                        withAnimation { isPaused.toggle() }
+                    } label: {
+                        Image(systemName: isPaused ? "play.circle.fill" : "pause.circle.fill")
+                            .font(.system(size: 28))
+                            .foregroundStyle(
+                                LinearGradient(colors: teamGradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+                            )
+                            .shadow(color: teamGradient[0].opacity(0.4), radius: 4, x: 0, y: 2)
+                    }
                 }
             }
         }
@@ -278,68 +293,70 @@ struct TeamGameView: View {
             if let card = currentCard {
                 VStack(spacing: 0) {
                     // Header section
-                    VStack(spacing: 8) {
-                        Text("TABU KELİMESİ".localized())
-                            .font(.caption.bold())
-                            .foregroundColor(.white.opacity(0.85))
-                            .tracking(2)
-                        
-                        Text(card.word)
-                            .font(.system(size: 38, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.5)
-                            .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .padding(.horizontal)
-                    .background(
-                        LinearGradient(colors: teamGradient,
-                                       startPoint: .topLeading, endPoint: .bottomTrailing)
-                    )
-                    
-                    // Forbidden words section
-                    VStack(spacing: 12) {
-                        Text("YASAKLI KELİMELER".localized())
-                            .font(.caption.bold())
-                            .foregroundColor(.gray.opacity(0.8))
-                            .tracking(2)
-                            .padding(.top, 20)
-                            .padding(.bottom, 4)
-                        
-                        ForEach(card.forbiddenWords, id: \.self) { word in
-                            HStack(spacing: 16) {
-                                Image(systemName: "xmark")
-                                    .font(.system(size: 12, weight: .black))
-                                    .foregroundColor(.white)
-                                    .frame(width: 26, height: 26)
-                                    .background(
-                                        LinearGradient(colors: [Color(hex: "ff416c"), Color(hex: "ff4b2b")],
-                                                       startPoint: .topLeading, endPoint: .bottomTrailing)
-                                    )
-                                    .clipShape(Circle())
-                                    .shadow(color: Color(hex: "ff4b2b").opacity(0.4), radius: 4, x: 0, y: 2)
-                                
-                                Text(word)
-                                    .font(.system(size: 19, weight: .bold, design: .rounded))
-                                    .foregroundColor(Color.black.opacity(0.8))
-                                
-                                Spacer()
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 12)
-                            .background(Color.gray.opacity(0.06))
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(Color.gray.opacity(0.15), lineWidth: 1)
-                            )
+                        VStack(spacing: 8) {
+                            Text("TABU KELİMESİ".localized())
+                                .font(.caption.bold())
+                                .foregroundColor(.white.opacity(0.85))
+                                .tracking(2)
+                            
+                            Text(card.word)
+                                .font(.system(size: 38, weight: .black, design: .rounded))
+                                .foregroundColor(.white)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.5)
+                                .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
                         }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 32)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .padding(.horizontal)
+                        .background(
+                            LinearGradient(colors: teamGradient,
+                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                        )
+                        
+                        // Forbidden words section
+                        VStack(spacing: 12) {
+                            Text("YASAKLI KELİMELER".localized())
+                                .font(.caption.bold())
+                                .foregroundColor(.gray.opacity(0.8))
+                                .tracking(2)
+                                .padding(.top, 20)
+                                .padding(.bottom, 4)
+                            
+                            ForEach(card.forbiddenWords, id: \.self) { word in
+                                HStack(spacing: 16) {
+                                    Image(systemName: "xmark")
+                                        .font(.system(size: 12, weight: .black))
+                                        .foregroundColor(.white)
+                                        .frame(width: 26, height: 26)
+                                        .background(
+                                            LinearGradient(colors: [Color(hex: "ff416c"), Color(hex: "ff4b2b")],
+                                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                                        )
+                                        .clipShape(Circle())
+                                        .shadow(color: Color(hex: "ff4b2b").opacity(0.4), radius: 4, x: 0, y: 2)
+                                    
+                                    Text(word)
+                                        .font(.system(size: 19, weight: .bold, design: .rounded))
+                                        .foregroundColor(Color.black.opacity(0.8))
+                                    
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 12)
+                                .background(Color.gray.opacity(0.06))
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+                                )
+                            }
+                        }
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 32)
                 }
+                .blur(radius: isPaused ? 18 : 0)
+                .opacity(isPaused ? 0.4 : 1)
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
                 .drawingGroup() // Hardware acceleration flatten to kill shadow lag
@@ -371,7 +388,8 @@ struct TeamGameView: View {
                     .background(skipCount >= 3 ? Color.gray.opacity(0.4) : Color.orange.opacity(0.85))
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
-                .disabled(skipCount >= 3 || isAnimating)
+                .disabled(skipCount >= 3 || isAnimating || isPaused)
+                .opacity(isPaused ? 0.5 : 1)
 
                 Button {
                     guard !isAnimating else { return }
@@ -387,7 +405,8 @@ struct TeamGameView: View {
                     .background(Color.green.opacity(0.85))
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
-                .disabled(isAnimating)
+                .disabled(isAnimating || isPaused)
+                .opacity(isPaused ? 0.5 : 1)
 
                 Button {
                     guard !isAnimating else { return }
@@ -403,7 +422,8 @@ struct TeamGameView: View {
                     .background(Color.red.opacity(0.85))
                     .clipShape(RoundedRectangle(cornerRadius: 14))
                 }
-                .disabled(isAnimating)
+                .disabled(isAnimating || isPaused)
+                .opacity(isPaused ? 0.5 : 1)
             }
             .padding(.horizontal)
             .padding(.bottom, 32)
@@ -571,12 +591,14 @@ struct TeamGameView: View {
         correctThisRound = 0
         tabuThisRound = 0
         skipCount = 0
+        isPaused = false
         withAnimation { phase = .countdown }
     }
 
     func startTimer() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            guard !isPaused else { return }
             if timeRemaining > 0 { 
                 timeRemaining -= 1 
                 if timeRemaining <= 10 && timeRemaining > 0 {

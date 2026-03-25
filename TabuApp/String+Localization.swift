@@ -61,6 +61,7 @@ struct AppTranslations {
         // Post Game / Stats
         "%@ Kazandı!": ["tr": "%@ Kazandı!", "en": "%@ Won!"],
         "Berabere!": ["tr": "Berabere!", "en": "It's a Tie!"],
-        "Tekrar Oyna": ["tr": "Tekrar Oyna", "en": "Play Again"]
+        "Tekrar Oyna": ["tr": "Tekrar Oyna", "en": "Play Again"],
+        "Oyun Duraklatıldı": ["tr": "Oyun Duraklatıldı", "en": "Game Paused"]
     ]
 }
