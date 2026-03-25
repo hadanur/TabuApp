@@ -107,10 +107,13 @@ struct ContentView: View {
                             .fontWeight(.bold)
                     }
                     .foregroundColor(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(Color.white.opacity(0.2))
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 10)
+                    .background(
+                        LinearGradient(colors: [.purple, .indigo], startPoint: .leading, endPoint: .trailing)
+                    )
                     .clipShape(Capsule())
+                    .shadow(color: .purple.opacity(0.5), radius: 8, x: 0, y: 4)
                 }
                 .padding()
                 .padding(.top, 40)
