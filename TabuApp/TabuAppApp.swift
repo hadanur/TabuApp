@@ -26,8 +26,9 @@ struct TabuAppApp: App {
             .environmentObject(languageManager)
             .environment(\.locale, Locale(identifier: languageManager.currentLanguage))
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
-                    withAnimation(.easeOut(duration: 0.5)) {
+                // Outro completes internally in SplashScreenView, we then unmount it natively
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.9) {
+                    withAnimation(.easeInOut(duration: 0.6)) {
                         showSplash = false
                     }
                 }

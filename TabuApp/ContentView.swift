@@ -10,6 +10,8 @@ struct ContentView: View {
     @EnvironmentObject var languageManager: LanguageManager
     @State private var showCategorySelection = false
     @State private var animateLogo = false
+    @State private var animateText = false
+    @State private var animateButton = false
     @State private var navigationPath = NavigationPath()
 
     var body: some View {
@@ -57,13 +59,14 @@ struct ContentView: View {
                                 LinearGradient(colors: [.white, Color(hex: "a78bfa")],
                                                startPoint: .leading, endPoint: .trailing)
                             )
-                            .opacity(animateLogo ? 1 : 0)
-                            .offset(y: animateLogo ? 0 : 20)
+                            .opacity(animateText ? 1 : 0)
+                            .offset(y: animateText ? 0 : 20)
 
                         Text("Yasak kelimeler oyunu".localized())
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.5))
-                            .opacity(animateLogo ? 1 : 0)
+                            .opacity(animateText ? 1 : 0)
+                            .offset(y: animateText ? 0 : 10)
                     }
 
                     Spacer()
@@ -89,8 +92,9 @@ struct ContentView: View {
                         .shadow(color: .purple.opacity(0.5), radius: 15, x: 0, y: 8)
                         .padding(.horizontal, 32)
                     }
-                    .opacity(animateLogo ? 1 : 0)
-                    .offset(y: animateLogo ? 0 : 30)
+                    .opacity(animateButton ? 1 : 0)
+                    .offset(y: animateButton ? 0 : 30)
+                    .scaleEffect(animateButton ? 1.0 : 0.95)
 
                     Spacer().frame(height: 60)
                 }
@@ -117,11 +121,12 @@ struct ContentView: View {
                 }
                 .padding()
                 .padding(.top, 40)
+                .opacity(animateButton ? 1 : 0)
             }
             .onAppear {
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.2)) {
-                    animateLogo = true
-                }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.6)) { animateLogo = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.75)) { animateText = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.9)) { animateButton = true }
             }
             .navigationDestination(for: String.self) { value in
                 if value == "categorySelection" {
