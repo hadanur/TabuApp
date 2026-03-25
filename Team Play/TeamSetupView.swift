@@ -32,19 +32,27 @@ struct TeamSetupView: View {
                 VStack(spacing: 20) {
                     // Header
                     VStack(spacing: 8) {
-                        Text("⚙️")
-                            .font(.system(size: 48))
+                        Text("✨")
+                            .font(.system(size: 44))
+                            .shadow(color: Color(hex: "fde68a").opacity(0.8), radius: 10)
+                            
                         Text("Oyun Ayarları".localized())
                             .font(.system(size: 28, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
+                            .foregroundStyle(
+                                LinearGradient(colors: [.white, Color(hex: "fde68a")],
+                                               startPoint: .top, endPoint: .bottom)
+                            )
+                            .shadow(color: Color(hex: "f59e0b").opacity(0.3), radius: 6, x: 0, y: 3)
+                            
                         Text(category.name)
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.5))
+                            .font(.system(size: 16, weight: .semibold, design: .rounded))
+                            .foregroundColor(Color(hex: "c4b5fd"))
+                            .shadow(color: Color(hex: "c4b5fd").opacity(0.4), radius: 4, x: 0, y: 2)
                     }
                     .padding(.top, 8)
 
                     // Team names
-                    DarkSetupSection(title: "🏷 \("Takım İsimleri".localized())") {
+                    DarkSetupSection(title: "🏆 \("Takım İsimleri".localized())") {
                         VStack(spacing: 12) {
                             TeamNameField(icon: "🔴", placeholder: "Takım 1".localized(), text: $team1Name)
                             TeamNameField(icon: "🔵", placeholder: "Takım 2".localized(), text: $team2Name)
@@ -116,6 +124,7 @@ struct TeamSetupView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbarBackground(.hidden, for: .navigationBar)
         .navigationDestination(isPresented: $showGame) {
             TeamGameView(
                 category: category,

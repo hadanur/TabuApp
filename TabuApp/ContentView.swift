@@ -11,62 +11,100 @@ struct ContentView: View {
     @State private var showCategorySelection = false
     @State private var animateLogo = false
     @State private var animateText = false
+    @State private var animateSubtitle = false
     @State private var animateButton = false
     @State private var navigationPath = NavigationPath()
 
     var body: some View {
         NavigationStack(path: $navigationPath) {
             ZStack {
-                // Background
-                LinearGradient(colors: [Color(hex: "1a1a2e"), Color(hex: "16213e"), Color(hex: "0f3460")],
-                               startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+                // 1) Deep space background matching app icon
+                Color(hex: "170e2b").ignoresSafeArea()
+                
+                RadialGradient(
+                    colors: [Color(hex: "3a1c61").opacity(0.8), .clear],
+                    center: .top, startRadius: 10, endRadius: 600
+                )
+                .ignoresSafeArea()
 
                 // Floating circles decoration
                 Circle()
-                    .fill(Color.purple.opacity(0.15))
+                    .fill(Color(hex: "f472b6").opacity(0.1))
                     .frame(width: 300, height: 300)
                     .offset(x: -100, y: -200)
-                    .blur(radius: 40)
+                    .blur(radius: 60)
 
                 Circle()
-                    .fill(Color.indigo.opacity(0.2))
+                    .fill(Color(hex: "60a5fa").opacity(0.1))
                     .frame(width: 250, height: 250)
                     .offset(x: 120, y: 200)
-                    .blur(radius: 50)
+                    .blur(radius: 60)
 
                 VStack(spacing: 0) {
                     Spacer()
 
-                    // Logo
-                    VStack(spacing: 16) {
+                    // Logo Composite
+                    VStack(spacing: 40) {
                         ZStack {
-                            Circle()
-                                .fill(LinearGradient(colors: [.purple, .indigo],
-                                                     startPoint: .topLeading, endPoint: .bottomTrailing))
-                                .frame(width: 120, height: 120)
-                                .shadow(color: .purple.opacity(0.5), radius: 20, x: 0, y: 10)
-                                .scaleEffect(animateLogo ? 1.0 : 0.8)
-
-                            Text("🤫")
-                                .font(.system(size: 60))
-                                .scaleEffect(animateLogo ? 1.0 : 0.8)
+                            // Back card (Pink header)
+                            SplashCard(headerColor: Color(hex: "fbcfe8"), isFront: false)
+                                .rotationEffect(.degrees(-10))
+                                .offset(x: 15, y: -15)
+                                .shadow(color: .black.opacity(0.3), radius: 15, x: -5, y: 10)
+                            
+                            // Front card (Purple header)
+                            SplashCard(headerColor: Color(hex: "c4b5fd"), isFront: true)
+                                .rotationEffect(.degrees(5))
+                                .offset(x: -5, y: 15)
+                                .shadow(color: .black.opacity(0.3), radius: 15, x: 5, y: 10)
+                            
+                            // Bubble
+                            SpeechBubble()
+                                .scaleEffect(0.65)
+                                .offset(x: -60, y: -85)
+                                .rotationEffect(.degrees(-8))
+                                .shadow(color: .black.opacity(0.4), radius: 15, x: -5, y: 10)
+                            
+                            // Sparkles
+                            SparkleShape()
+                                .fill(Color(hex: "f59e0b"))
+                                .frame(width: 35, height: 35)
+                                .offset(x: 90, y: -90)
+                                .rotationEffect(.degrees(animateLogo ? 20 : -20))
+                                .shadow(color: Color(hex: "f59e0b").opacity(0.8), radius: 10)
+                            
+                            SparkleShape()
+                                .fill(Color(hex: "fcd34d"))
+                                .frame(width: 20, height: 20)
+                                .offset(x: 120, y: -50)
+                                .rotationEffect(.degrees(animateLogo ? -15 : 25))
+                                .shadow(color: Color(hex: "fcd34d").opacity(0.8), radius: 10)
                         }
+                        .scaleEffect( animateLogo ? 0.95 : 0.40 ) 
+                        .rotationEffect(.degrees(animateLogo ? 0 : -15))
+                        .opacity(animateLogo ? 1 : 0)
+                        .offset(y: animateLogo ? 0 : 50)
 
-                        Text("TABU".localized())
-                            .font(.system(size: 56, weight: .black, design: .rounded))
-                            .foregroundStyle(
-                                LinearGradient(colors: [.white, Color(hex: "a78bfa")],
-                                               startPoint: .leading, endPoint: .trailing)
-                            )
-                            .opacity(animateText ? 1 : 0)
-                            .offset(y: animateText ? 0 : 20)
-
-                        Text("Yasak kelimeler oyunu".localized())
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.5))
-                            .opacity(animateText ? 1 : 0)
-                            .offset(y: animateText ? 0 : 10)
+                        VStack(spacing: 12) {
+                            Text("TABU".localized())
+                                .font(.system(size: 56, weight: .black, design: .rounded))
+                                .foregroundStyle(
+                                    LinearGradient(colors: [.white, Color(hex: "fde68a")],
+                                                   startPoint: .top, endPoint: .bottom)
+                                )
+                                .shadow(color: Color(hex: "f59e0b").opacity(0.4), radius: 8, x: 0, y: 4)
+                                .opacity(animateText ? 1 : 0)
+                                .offset(y: animateText ? 0 : 30)
+                                .scaleEffect(animateText ? 1.0 : 0.8)
+                            
+                            Text("Yasak kelimeler oyunu".localized())
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                                .tracking(2)
+                                .foregroundColor(Color(hex: "c4b5fd"))
+                                .shadow(color: Color(hex: "c4b5fd").opacity(0.5), radius: 5, x: 0, y: 2)
+                                .opacity(animateSubtitle ? 1 : 0)
+                                .offset(y: animateSubtitle ? 0 : 20)
+                        }
                     }
 
                     Spacer()
@@ -101,7 +139,7 @@ struct ContentView: View {
             }
             .overlay(alignment: .topTrailing) {
                 Button {
-                    withAnimation {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
                         languageManager.toggleLanguage()
                     }
                 } label: {
@@ -124,9 +162,10 @@ struct ContentView: View {
                 .opacity(animateButton ? 1 : 0)
             }
             .onAppear {
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.6)) { animateLogo = true }
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.75)) { animateText = true }
-                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.9)) { animateButton = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.5)) { animateLogo = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.65)) { animateText = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.8)) { animateSubtitle = true }
+                withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.95)) { animateButton = true }
             }
             .navigationDestination(for: String.self) { value in
                 if value == "categorySelection" {

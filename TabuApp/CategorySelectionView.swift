@@ -18,7 +18,7 @@ struct CategorySelectionView: View {
 
     var orderedCategories: [TabooCategory] {
         var cats = WordDatabase.categories
-        if let index = cats.firstIndex(where: { $0.name == "Karışık" }) {
+        if let index = cats.firstIndex(where: { $0.name == "Karışık" || $0.name == "Mixed" }) {
             let mixedCategory = cats.remove(at: index)
             cats.insert(mixedCategory, at: 0)
         }
@@ -37,10 +37,17 @@ struct CategorySelectionView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("Kategori Seç".localized())
                             .font(.system(size: 28, weight: .black, design: .rounded))
-                            .foregroundColor(.white)
+                            .foregroundStyle(
+                                LinearGradient(colors: [.white, Color(hex: "fde68a")],
+                                               startPoint: .top, endPoint: .bottom)
+                            )
+                            .shadow(color: Color(hex: "f59e0b").opacity(0.3), radius: 6, x: 0, y: 3)
+                            
                         Text("Oynamak için bir konu seç".localized())
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.5))
+                            .font(.system(size: 15, weight: .semibold, design: .rounded))
+                            .foregroundColor(Color(hex: "c4b5fd"))
+                            .shadow(color: Color(hex: "c4b5fd").opacity(0.4), radius: 4, x: 0, y: 2)
+                            .padding(.top, 2)
                     }
                     .padding(.horizontal)
                     .padding(.top, 8)
@@ -133,6 +140,7 @@ struct CategorySelectionView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbarBackground(.hidden, for: .navigationBar)
         .navigationDestination(isPresented: $showGameSetup) {
             if let category = selectedCategory {
                 TeamSetupView(category: category, navigationPath: $navigationPath)
@@ -159,7 +167,7 @@ struct CategoryCard: View {
     ]
 
     var gradientColors: [Color] {
-        if category.name == "Karışık" {
+        if category.name == "Karışık" || category.name == "Mixed" {
             // A unique, vibrant golden/orange gradient for the mixed category
             return [Color(hex: "FFB75E"), Color(hex: "ED8F03")]
         }
