@@ -50,14 +50,14 @@ struct TeamGameOverView: View {
                         .opacity(animate ? 1 : 0)
 
                     if let winner = winner {
-                        Text("\(winner) Kazandı!")
+                        Text(String(format: "%@ Kazandı!".localized(), winner))
                             .font(.system(size: 34, weight: .black, design: .rounded))
                             .foregroundStyle(
                                 LinearGradient(colors: winnerGradient,
                                                startPoint: .leading, endPoint: .trailing)
                             )
                     } else {
-                        Text("Berabere!")
+                        Text("Berabere!".localized())
                             .font(.system(size: 34, weight: .black, design: .rounded))
                             .foregroundColor(.white)
                     }
@@ -119,7 +119,7 @@ struct TeamGameOverView: View {
                 Button {
                     navigationPath = NavigationPath()
                 } label: {
-                    Text("Tekrar Oyna")
+                    Text("Tekrar Oyna".localized())
                         .font(.title3.bold())
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CategorySelectionView: View {
+    @EnvironmentObject var languageManager: LanguageManager
     @Environment(\.dismiss) private var dismiss
     @Binding var navigationPath: NavigationPath
     @State private var selectedCategory: TabooCategory? = nil
@@ -34,10 +35,10 @@ struct CategorySelectionView: View {
                 // Scrollable content
                 VStack(alignment: .leading, spacing: 0) {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text("Kategori Seç")
+                        Text("Kategori Seç".localized())
                             .font(.system(size: 28, weight: .black, design: .rounded))
                             .foregroundColor(.white)
-                        Text("Oynamak için bir konu seç")
+                        Text("Oynamak için bir konu seç".localized())
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.5))
                     }
@@ -79,10 +80,10 @@ struct CategorySelectionView: View {
                                 if let cat = selectedCategory {
                                     Text(cat.emoji)
                                         .font(.title3)
-                                    Text("\(cat.name) Oyna")
+                                    Text("\(cat.name) \("Oyna".localized())")
                                         .font(.headline.bold())
                                 } else {
-                                    Text("Bir Kategori Seç")
+                                    Text("Bir Kategori Seç".localized())
                                         .font(.headline.bold())
                                 }
                             }
@@ -178,7 +179,7 @@ struct CategoryCard: View {
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
 
-            Text("\(category.cards.count) kart")
+            Text("\(category.cards.count) \("kart".localized())")
                 .font(.system(size: 12, weight: .medium, design: .rounded))
                 .foregroundColor(.white.opacity(0.95))
                 .shadow(color: .black.opacity(0.3), radius: 2, x: 0, y: 1)

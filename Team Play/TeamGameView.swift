@@ -76,10 +76,10 @@ struct TeamGameView: View {
 
             if showHomeAlert {
                 TabuAlertView(
-                    title: "Oyundan Çık?",
-                    message: "Mevcut oyun ilerlemen silinecek. Emin misin?",
-                    confirmText: "Evet, Çık",
-                    cancelText: "Oyuna Devam Et",
+                    title: "Oyundan Çık?".localized(),
+                    message: "Mevcut oyun ilerlemen silinecek. Emin misin?".localized(),
+                    confirmText: "Evet, Çık".localized(),
+                    cancelText: "Oyuna Devam Et".localized(),
                     onConfirm: {
                         timer?.invalidate()
                         navigationPath = NavigationPath()
@@ -123,16 +123,16 @@ struct TeamGameView: View {
             Spacer()
 
             VStack(spacing: 16) {
-                Text("Tur \(roundNumber) / \(maxRounds * 2)")
+                Text("\("Tur".localized()) \(roundNumber) / \(maxRounds * 2)")
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.5))
 
-                Text("Sıra \(currentTeamName) Takımında!")
+                Text(String(format: "Sıra %@ Takımında!".localized(), currentTeamName))
                     .font(.system(size: 32, weight: .black, design: .rounded))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
 
-                Text("Telefonu \(currentTeamName) takımına ver")
+                Text(String(format: "Telefonu %@ takımına ver".localized(), currentTeamName))
                     .font(.subheadline)
                     .foregroundColor(.white.opacity(0.5))
             }
@@ -142,7 +142,7 @@ struct TeamGameView: View {
             Button { startRound() } label: {
                 HStack(spacing: 10) {
                     Image(systemName: "play.fill")
-                    Text("Hazırız!")
+                    Text("Hazırız!".localized())
                         .font(.title3.bold())
                 }
                 .foregroundColor(.white)
@@ -164,7 +164,7 @@ struct TeamGameView: View {
     // MARK: - Countdown View
     var countdownView: some View {
         ZStack {
-            Text(countdownNumber > 0 ? "\(countdownNumber)" : "BAŞLA!")
+            Text(countdownNumber > 0 ? "\(countdownNumber)" : "BAŞLA!".localized())
                 .font(.system(size: countdownNumber > 0 ? 150 : 80, weight: .black, design: .rounded))
                 .foregroundColor(countdownNumber > 0 ? .white : Color(hex: "43e97b"))
                 .scaleEffect(countdownScale)
@@ -233,7 +233,7 @@ struct TeamGameView: View {
                         .font(.system(size: 28, weight: .black, design: .rounded))
                         .monospacedDigit()
                     
-                    Text("sn")
+                    Text("sn".localized())
                         .font(.headline.bold())
                         .foregroundColor(.white.opacity(0.8))
                 }
@@ -279,7 +279,7 @@ struct TeamGameView: View {
                 VStack(spacing: 0) {
                     // Header section
                     VStack(spacing: 8) {
-                        Text("TABU KELİMESİ")
+                        Text("TABU KELİMESİ".localized())
                             .font(.caption.bold())
                             .foregroundColor(.white.opacity(0.85))
                             .tracking(2)
@@ -301,7 +301,7 @@ struct TeamGameView: View {
                     
                     // Forbidden words section
                     VStack(spacing: 12) {
-                        Text("YASAKLI KELİMELER")
+                        Text("YASAKLI KELİMELER".localized())
                             .font(.caption.bold())
                             .foregroundColor(.gray.opacity(0.8))
                             .tracking(2)
@@ -362,7 +362,7 @@ struct TeamGameView: View {
                 } label: {
                     VStack(spacing: 4) {
                         Image(systemName: "forward.fill").font(.title3.bold())
-                        Text(skipCount < 3 ? "Pas (\(3 - skipCount))" : "Hakkın Bitti")
+                        Text(skipCount < 3 ? String(format: "Pas (%d)".localized(), 3 - skipCount) : "Hakkın Bitti".localized())
                             .font(.caption.bold())
                     }
                     .foregroundColor(.white)
@@ -379,7 +379,7 @@ struct TeamGameView: View {
                 } label: {
                     VStack(spacing: 4) {
                         Image(systemName: "checkmark").font(.title3.bold())
-                        Text("Doğru").font(.caption.bold())
+                        Text("Doğru".localized()).font(.caption.bold())
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -395,7 +395,7 @@ struct TeamGameView: View {
                 } label: {
                     VStack(spacing: 4) {
                         Image(systemName: "exclamationmark.triangle.fill").font(.title3.bold())
-                        Text("Tabu!").font(.caption.bold())
+                        Text("Tabu!".localized()).font(.caption.bold())
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -418,17 +418,16 @@ struct TeamGameView: View {
             Text("⏰")
                 .font(.system(size: 70))
 
-            Text("Tur Bitti!")
+            Text("Tur Bitti!".localized())
                 .font(.system(size: 32, weight: .black, design: .rounded))
                 .foregroundColor(.white)
 
-            // Round stats
             HStack(spacing: 8) {
-                StatCell(icon: "checkmark.circle.fill", label: "Doğru",
+                StatCell(icon: "checkmark.circle.fill", label: "Doğru".localized(),
                          value: correctThisRound, color: .green)
-                StatCell(icon: "forward.circle.fill", label: "Pas",
+                StatCell(icon: "forward.circle.fill", label: "Pas".localized(),
                          value: skipCount, color: .orange)
-                StatCell(icon: "xmark.circle.fill", label: "Tabu",
+                StatCell(icon: "xmark.circle.fill", label: "Tabu".localized(),
                          value: tabuThisRound, color: .red)
 
             }
@@ -444,7 +443,7 @@ struct TeamGameView: View {
                 if isLastRound { isGameOver = true }
                 else { nextTeamTurn() }
             } label: {
-                Text(isLastRound ? "Sonuçları Gör 🏆" : "Sıradaki Takım →")
+                Text(isLastRound ? "Sonuçları Gör 🏆".localized() : "Sıradaki Takım →".localized())
                     .font(.title3.bold())
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)

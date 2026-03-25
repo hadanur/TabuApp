@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var languageManager: LanguageManager
     @State private var showCategorySelection = false
     @State private var animateLogo = false
     @State private var navigationPath = NavigationPath()
@@ -50,7 +51,7 @@ struct ContentView: View {
                                 .scaleEffect(animateLogo ? 1.0 : 0.8)
                         }
 
-                        Text("TABU")
+                        Text("TABU".localized())
                             .font(.system(size: 56, weight: .black, design: .rounded))
                             .foregroundStyle(
                                 LinearGradient(colors: [.white, Color(hex: "a78bfa")],
@@ -59,7 +60,7 @@ struct ContentView: View {
                             .opacity(animateLogo ? 1 : 0)
                             .offset(y: animateLogo ? 0 : 20)
 
-                        Text("Yasak kelimeler oyunu")
+                        Text("Yasak kelimeler oyunu".localized())
                             .font(.subheadline)
                             .foregroundColor(.white.opacity(0.5))
                             .opacity(animateLogo ? 1 : 0)
@@ -74,7 +75,7 @@ struct ContentView: View {
                         HStack(spacing: 12) {
                             Image(systemName: "play.fill")
                                 .font(.title3)
-                            Text("Hemen Oyna")
+                            Text("Hemen Oyna".localized())
                                 .font(.title3.bold())
                         }
                         .foregroundColor(.white)
@@ -93,6 +94,26 @@ struct ContentView: View {
 
                     Spacer().frame(height: 60)
                 }
+            }
+            .overlay(alignment: .topTrailing) {
+                Button {
+                    withAnimation {
+                        languageManager.toggleLanguage()
+                    }
+                } label: {
+                    HStack(spacing: 6) {
+                        Image(systemName: "globe")
+                        Text(languageManager.currentLanguage.uppercased())
+                            .fontWeight(.bold)
+                    }
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(Color.white.opacity(0.2))
+                    .clipShape(Capsule())
+                }
+                .padding()
+                .padding(.top, 40)
             }
             .onAppear {
                 withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(0.2)) {

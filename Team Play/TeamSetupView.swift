@@ -10,8 +10,8 @@ struct TeamSetupView: View {
     @Environment(\.dismiss) private var dismiss
     let category: TabooCategory
     @Binding var navigationPath: NavigationPath
-    @State private var team1Name = "Takım 1"
-    @State private var team2Name = "Takım 2"
+    @State private var team1Name = "Takım 1".localized()
+    @State private var team2Name = "Takım 2".localized()
     @State private var roundTime = 60
     @State private var maxRounds = 5
     @State private var showGame = false
@@ -34,7 +34,7 @@ struct TeamSetupView: View {
                     VStack(spacing: 8) {
                         Text("⚙️")
                             .font(.system(size: 48))
-                        Text("Oyun Ayarları")
+                        Text("Oyun Ayarları".localized())
                             .font(.system(size: 28, weight: .black, design: .rounded))
                             .foregroundColor(.white)
                         Text(category.name)
@@ -44,15 +44,15 @@ struct TeamSetupView: View {
                     .padding(.top, 8)
 
                     // Team names
-                    DarkSetupSection(title: "🏷 Takım İsimleri") {
+                    DarkSetupSection(title: "🏷 \("Takım İsimleri".localized())") {
                         VStack(spacing: 12) {
-                            TeamNameField(icon: "🔴", placeholder: "Takım 1", text: $team1Name)
-                            TeamNameField(icon: "🔵", placeholder: "Takım 2", text: $team2Name)
+                            TeamNameField(icon: "🔴", placeholder: "Takım 1".localized(), text: $team1Name)
+                            TeamNameField(icon: "🔵", placeholder: "Takım 2".localized(), text: $team2Name)
                         }
                     }
 
                     // Time
-                    DarkSetupSection(title: "⏱ Tur Süresi") {
+                    DarkSetupSection(title: "⏱ \("Tur Süresi".localized())") {
                         HStack(spacing: 10) {
                             ForEach([30, 60, 90, 120], id: \.self) { t in
                                 DarkSelectButton(label: "\(t)s", isSelected: roundTime == t,
@@ -64,7 +64,7 @@ struct TeamSetupView: View {
                     }
 
                     // Rounds
-                    DarkSetupSection(title: "🔄 Tur Sayısı") {
+                    DarkSetupSection(title: "🔄 \("Tur Sayısı".localized())") {
                         HStack(spacing: 8) {
                             ForEach([3, 5, 7, 9, 11], id: \.self) { r in
                                 DarkSelectButton(label: "\(r)", isSelected: maxRounds == r,
@@ -80,7 +80,7 @@ struct TeamSetupView: View {
                     } label: {
                         HStack(spacing: 10) {
                             Image(systemName: "play.fill")
-                            Text("Oyuna Başla")
+                            Text("Oyuna Başla".localized())
                                 .font(.title3.bold())
                         }
                         .foregroundColor(.white)
@@ -119,8 +119,8 @@ struct TeamSetupView: View {
         .navigationDestination(isPresented: $showGame) {
             TeamGameView(
                 category: category,
-                team1Name: team1Name.isEmpty ? "Takım 1" : team1Name,
-                team2Name: team2Name.isEmpty ? "Takım 2" : team2Name,
+                team1Name: team1Name.isEmpty ? "Takım 1".localized() : team1Name,
+                team2Name: team2Name.isEmpty ? "Takım 2".localized() : team2Name,
                 roundTime: roundTime,
                 maxRounds: maxRounds,
                 navigationPath: $navigationPath

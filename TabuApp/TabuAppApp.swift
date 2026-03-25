@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct TabuAppApp: App {
     @State private var showSplash = true
+    @ObservedObject private var languageManager = LanguageManager.shared
 
     var body: some Scene {
         WindowGroup {
@@ -22,6 +23,8 @@ struct TabuAppApp: App {
                         .zIndex(1)
                 }
             }
+            .environmentObject(languageManager)
+            .environment(\.locale, Locale(identifier: languageManager.currentLanguage))
             .onAppear {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
                     withAnimation(.easeOut(duration: 0.5)) {
