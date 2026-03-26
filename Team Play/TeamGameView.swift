@@ -149,10 +149,10 @@ struct TeamGameView: View {
                 Text(String(format: "Sıra %@ Takımında!".localized(), currentTeamName))
                     .font(.system(size: 36, weight: .black, design: .rounded))
                     .foregroundStyle(
-                        LinearGradient(colors: teamGradient,
+                        LinearGradient(colors: [.white, Color(hex: "fde68a")],
                                        startPoint: .top, endPoint: .bottom)
                     )
-                    .shadow(color: teamGradient[0].opacity(0.5), radius: 8, x: 0, y: 4)
+                    .shadow(color: Color(hex: "f59e0b").opacity(0.3), radius: 6, x: 0, y: 3)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
@@ -600,7 +600,9 @@ struct TeamGameView: View {
     }
 
     func startRound() {
-        deck = category.cards.shuffled()
+        if deck.isEmpty {
+            deck = category.cards.shuffled()
+        }
         timeRemaining = roundTime
         correctThisRound = 0
         tabuThisRound = 0
