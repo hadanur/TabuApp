@@ -124,7 +124,9 @@ struct TeamGameOverView: View {
                 Spacer()
 
                 Button {
-                    navigationPath = NavigationPath()
+                    InterstitialAdManager.shared.showIfAvailable {
+                        navigationPath = NavigationPath()
+                    }
                 } label: {
                     Text("Tekrar Oyna".localized())
                         .font(.title3.bold())
@@ -149,7 +151,9 @@ struct TeamGameOverView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    navigationPath = NavigationPath()
+                    InterstitialAdManager.shared.showIfAvailable {
+                        navigationPath = NavigationPath()
+                    }
                 } label: {
                     Image(systemName: "house.fill")
                         .font(.body.bold())
@@ -162,6 +166,7 @@ struct TeamGameOverView: View {
             withAnimation(.spring(response: 0.7, dampingFraction: 0.6).delay(0.1)) {
                 animate = true
             }
+            InterstitialAdManager.shared.showIfAvailable()
         }
     }
 }

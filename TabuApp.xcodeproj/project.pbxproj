@@ -13,6 +13,8 @@
 		B78D8AE42F5DEA2B00C22711 /* TeamSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AE22F5DEA2700C22711 /* TeamSetupView.swift */; };
 		B78D8AE72F5DEA3D00C22711 /* TeamGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AE52F5DEA3900C22711 /* TeamGameView.swift */; };
 		B78D8AEA2F5DEA5600C22711 /* TeamGameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B78D8AE82F5DEA5200C22711 /* TeamGameOverView.swift */; };
+		B7AD00022F73DFDB00FF39D2 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = B7AD00012F73DFDB00FF39D2 /* GoogleMobileAds */; };
+		B7AD00042F73DFDB00FF39D2 /* GoogleUserMessagingPlatform in Frameworks */ = {isa = PBXBuildFile; productRef = B7AD00032F73DFDB00FF39D2 /* GoogleUserMessagingPlatform */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B7AD00042F73DFDB00FF39D2 /* GoogleUserMessagingPlatform in Frameworks */,
+				B7AD00022F73DFDB00FF39D2 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +115,8 @@
 			);
 			name = TabuApp;
 			packageProductDependencies = (
+				B7AD00012F73DFDB00FF39D2 /* GoogleMobileAds */,
+				B7AD00032F73DFDB00FF39D2 /* GoogleUserMessagingPlatform */,
 			);
 			productName = TabuApp;
 			productReference = B78D8AC52F5DE3C000C22711 /* TabuApp.app */;
@@ -141,6 +147,10 @@
 			);
 			mainGroup = B78D8ABC2F5DE3C000C22711;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				B7AD00002F73DFDB00FF39D2 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				B7AD00052F73DFDB00FF39D2 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B78D8AC62F5DE3C000C22711 /* Products */;
 			projectDirPath = "";
@@ -335,7 +345,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = HakanAdanur.TabuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -373,7 +383,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = HakanAdanur.TabuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -411,6 +421,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B7AD00002F73DFDB00FF39D2 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+		B7AD00052F73DFDB00FF39D2 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B7AD00012F73DFDB00FF39D2 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7AD00002F73DFDB00FF39D2 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		B7AD00032F73DFDB00FF39D2 /* GoogleUserMessagingPlatform */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B7AD00052F73DFDB00FF39D2 /* XCRemoteSwiftPackageReference "swift-package-manager-google-user-messaging-platform" */;
+			productName = GoogleUserMessagingPlatform;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B78D8ABD2F5DE3C000C22711 /* Project object */;
 }

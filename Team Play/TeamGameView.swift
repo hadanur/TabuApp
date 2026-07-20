@@ -83,7 +83,9 @@ struct TeamGameView: View {
                     cancelText: "Oyuna Devam Et".localized(),
                     onConfirm: {
                         timer?.invalidate()
-                        navigationPath = NavigationPath()
+                        InterstitialAdManager.shared.showIfAvailable {
+                            navigationPath = NavigationPath()
+                        }
                     },
                     onCancel: { withAnimation { showHomeAlert = false } }
                 )
@@ -496,6 +498,9 @@ struct TeamGameView: View {
             }
 
             Spacer().frame(height: 60)
+        }
+        .onAppear {
+            InterstitialAdManager.shared.showIfAvailable()
         }
     }
 

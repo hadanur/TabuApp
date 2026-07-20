@@ -2,12 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-4221108150322392~9193393491</string>
-	<key>UILaunchScreen</key>
+	<key>SchemeUserState</key>
 	<dict>
-		<key>UIColorName</key>
-		<string>LaunchBackgroundColor</string>
+		<key>TabuApp.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
 	</dict>
 </dict>
 </plist>

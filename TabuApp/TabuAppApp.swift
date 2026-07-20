@@ -26,6 +26,7 @@ struct TabuAppApp: App {
             .environmentObject(languageManager)
             .environment(\.locale, Locale(identifier: languageManager.currentLanguage))
             .onAppear {
+                ConsentManager.shared.gatherConsentAndStartAds()
                 // Outro completes internally in SplashScreenView, we then unmount it natively
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.9) {
                     withAnimation(.easeInOut(duration: 0.6)) {

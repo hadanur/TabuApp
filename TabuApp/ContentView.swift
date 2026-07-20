@@ -161,6 +161,22 @@ struct ContentView: View {
                 .padding(.top, 40)
                 .opacity(animateButton ? 1 : 0)
             }
+            .overlay(alignment: .topLeading) {
+                Button {
+                    ConsentManager.shared.presentPrivacyOptions()
+                } label: {
+                    Image(systemName: "hand.raised.fill")
+                        .font(.body.bold())
+                        .foregroundColor(.white)
+                        .padding(12)
+                        .background(Color.white.opacity(0.15))
+                        .clipShape(Circle())
+                }
+                .accessibilityLabel("Privacy options")
+                .padding()
+                .padding(.top, 40)
+                .opacity(animateButton ? 1 : 0)
+            }
             .onAppear {
                 withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.5)) { animateLogo = true }
                 withAnimation(.spring(response: 0.8, dampingFraction: 0.7).delay(2.65)) { animateText = true }
